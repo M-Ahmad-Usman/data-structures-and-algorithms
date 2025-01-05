@@ -80,6 +80,45 @@ public:
         cout << temp->GetData() << "\n";
     }
 
+    void Delete(int dataToDelete)
+    {
+        // Case 1: If list is empty
+        if (currentLocation == nullptr)
+        {
+            cout << "Can't delete from an empty list.\n";
+            return;
+        }
+
+        // Case 2: If list is not empty
+        Node *nodeToDelete = currentLocation->GetNext();
+        Node *previous = currentLocation;
+
+        // Case 2.1: If node to be deleted is first node
+        if (currentLocation->GetData() == dataToDelete)
+        {
+            currentLocation = currentLocation->GetNext();
+            delete previous;
+            return;
+        }
+
+        // Case 2.2: If node to be deleted is not first node
+        while(nodeToDelete != nullptr)
+        {
+            if (nodeToDelete->GetData() == dataToDelete)
+            {
+                previous->SetNext(nodeToDelete->GetNext());
+                delete nodeToDelete;
+                break;
+            }
+            nodeToDelete = nodeToDelete->GetNext();
+            previous = previous->GetNext();
+        }
+
+        // Case 3: If data is not found
+        if (nodeToDelete == nullptr)
+        cout << "Data not found.\n";
+    }
+
     ~List() // Destructor to free memory just incase user forgot to free memory
     {
         if (currentLocation != nullptr)
@@ -100,9 +139,21 @@ int main()
 {
     List myList;
 
-    myList.Print();
+    myList.Delete(1); // Testing Case 1
+
     myList.Insert(1);
+
+    myList.Delete(2); // Testing Case 3
+
+    myList.Delete(1); // Testing Case 2.1
+
     myList.Insert(2);
+    myList.Insert(4);
+
+    myList.Print();
+
+    myList.Delete(4); // Testing Case 2.2
+
     myList.Print();
 
     return 0;
