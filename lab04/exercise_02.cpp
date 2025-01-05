@@ -61,6 +61,25 @@ public:
         lastNode->SetNext(newNode);
     }
 
+    void Print()
+    {
+        // Case 1: If list is empty
+        if (currentLocation == nullptr)
+        {
+            cout << "List is empty.\n";
+            return;
+        }
+
+        // Case 2: If list is not empty
+        Node *temp = currentLocation;
+        while (temp->GetNext() != nullptr)
+        {
+            cout << temp->GetData() << "->";
+            temp = temp->GetNext();
+        }
+        cout << temp->GetData() << "\n";
+    }
+
     ~List() // Destructor to free memory just incase user forgot to free memory
     {
         if (currentLocation != nullptr)
@@ -80,8 +99,11 @@ public:
 int main()
 {
     List myList;
+
+    myList.Print();
     myList.Insert(1);
     myList.Insert(2);
-    
+    myList.Print();
+
     return 0;
 }
