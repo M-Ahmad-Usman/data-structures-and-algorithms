@@ -274,6 +274,55 @@ public:
         }
     }
 
+    // Swaps the data of two nodes on given indices. Indices need not to be consecutive.
+    void Swap(int indexOfNode1, int indexOfNode2)
+    {
+        if (head == nullptr || head->GetNext() == nullptr)
+        {
+            cout << "Can't swap. List has less than 2 nodes.\n";
+            return;
+        }
+
+        // Finding first node
+        Node *node1 = head;
+        int index1= 0;
+
+        while (node1 != nullptr)
+        {
+            if (index1 == indexOfNode1)
+            {
+                break;
+            }
+            index1++;
+            node1 = node1->GetNext();
+        }
+
+        // Findind second node
+        Node *node2 = head;
+        int index2 = 0;
+
+        while (node2 != nullptr)
+        {
+            if (index2 == indexOfNode2)
+            {
+                break;
+            }
+            index2++;
+            node2 = node2->GetNext();
+        }
+
+        if (node1 == nullptr || node2 == nullptr)
+        {
+            cout << "Indices are invalid.\n";
+            return;
+        }
+
+        // Swapping
+        int temp = node1->GetData();
+        node1->SetData(node2->GetData());
+        node2->SetData(temp);
+    }
+
     ~List() // Destructor to free memory just incase user forgot to free memory
     {
         if (head != nullptr)
@@ -302,9 +351,8 @@ int main()
     myList.Insert(6);
     myList.Insert(0);
 
-    myList.InsertAt(8, 0);
-    myList.InsertAt(8, 10);
-    myList.InsertAt(10, 6);
+    myList.Swap(0, 4);
+    myList.Swap(1, 6);
 
     return 0;
 }
