@@ -8,15 +8,14 @@ private:
     Node *next;
 
 public:
-
-    //Constructors
+    // Constructors
     Node()
     {
         data = 0;
         next = nullptr;
     }
 
-    Node(int data, Node* next)
+    Node(int data, Node *next)
     {
         this->data = data;
         this->next = next;
@@ -188,7 +187,7 @@ public:
             {
                 minimum = current->GetData();
             }
-            
+
             current = current->GetNext();
         }
 
@@ -210,7 +209,7 @@ public:
             {
                 maximum = current->GetData();
             }
-            
+
             current = current->GetNext();
         }
 
@@ -220,7 +219,9 @@ public:
     bool Search(int dataToSearch)
     {
         if (head == nullptr)
-        { return false; }
+        {
+            return false;
+        }
 
         Node *current = head;
         while (current != nullptr)
@@ -233,6 +234,44 @@ public:
         }
 
         return false; // If data is not found after searching in whole list.
+    }
+
+    // Inserts data at given index in the list. Indexing starts from 0. Index:1 means node will be after head and before the node which was after the head.
+    void InsertAt(int data, int index)
+    {
+        if (index < 0)
+        {
+            cout << "Index cannot be negative. Please enter a positive value.\n";
+            return;
+        }
+
+        if (index == 0)
+        {
+            Node *newNode = new Node(data, head);
+            head = newNode;
+            return;
+        }
+
+        Node *current = head->GetNext();
+        Node *previous = head;
+        int counter = 0;
+        while (current != nullptr)
+        {
+            if (counter == index)
+            {
+                Node *newNode = new Node(data, current);
+                previous->SetNext(newNode);
+                return;
+            }
+            counter++;
+            current = current->GetNext();
+            previous = previous->GetNext();
+        }
+
+        if (current == nullptr)
+        {
+            cout << "Index not found in the list.\n";
+        }
     }
 
     ~List() // Destructor to free memory just incase user forgot to free memory
@@ -251,7 +290,7 @@ public:
     }
 };
 
-int main ()
+int main()
 {
     List myList;
 
@@ -263,17 +302,9 @@ int main ()
     myList.Insert(6);
     myList.Insert(0);
 
-    int valueToSearch = 5;
-    bool valueFound = myList.Search(valueToSearch);
-
-    if (valueFound)
-    {
-        cout << "The value " << valueToSearch << " exists in list.\n";
-    }
-    else
-    {
-        cout << "The value " << valueToSearch << " doesn't exists in list.\n";
-    }
+    myList.InsertAt(8, 0);
+    myList.InsertAt(8, 10);
+    myList.InsertAt(10, 6);
 
     return 0;
 }
