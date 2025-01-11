@@ -173,6 +173,28 @@ public:
         cout << "No two adjacent nodes found with given data.\n";
     }
 
+    int FindMinimum()
+    {
+        if (head == nullptr)
+        {
+            throw runtime_error("List is empty. Can't find minimum value from an empty list.");
+        }
+
+        int minimum = head->GetData();
+        Node *current = head;
+        while (current != nullptr)
+        {
+            if (minimum > current->GetData())
+            {
+                minimum = current->GetData();
+            }
+            
+            current = current->GetNext();
+        }
+
+        return minimum;
+    }
+
     ~List() // Destructor to free memory just incase user forgot to free memory
     {
         if (head != nullptr)
@@ -193,7 +215,15 @@ int main ()
 {
     List myList;
 
-    myList.Print();
+    try
+    {
+        int minimum = myList.FindMinimum();
+        cout << "The minimum number in the list is " << minimum << "\n";
+    }
+    catch(const exception& e)
+    {
+        cerr << e.what() << '\n';
+    }
 
     myList.Insert(1);
     myList.Insert(2);
@@ -201,23 +231,17 @@ int main ()
     myList.Insert(4);
     myList.Insert(5);
     myList.Insert(6);
+    myList.Insert(0);
 
-    myList.Print();
+    try
+    {
+        int minimum = myList.FindMinimum();
+        cout << "The minimum number in the list is " << minimum << "\n";
+    }
+    catch(const exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
 
-    myList.AddBetween(7,5,6);
-    myList.Print();
-
-    myList.Delete(7);
-    myList.Delete(5);
-    myList.Delete(6);
-    myList.Delete(4);
-    myList.Delete(3);
-    myList.Delete(2);
-
-    myList.Print();
-
-    myList.Delete(1);
-
-    myList.Print();
     return 0;
 }
