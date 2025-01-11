@@ -195,6 +195,28 @@ public:
         return minimum;
     }
 
+    int FindMaximum()
+    {
+        if (head == nullptr)
+        {
+            throw runtime_error("List is empty. Can't find maximum value from an empty list.");
+        }
+
+        int maximum = head->GetData();
+        Node *current = head;
+        while (current != nullptr)
+        {
+            if (maximum > current->GetData())
+            {
+                maximum = current->GetData();
+            }
+            
+            current = current->GetNext();
+        }
+
+        return maximum;
+    }
+
     ~List() // Destructor to free memory just incase user forgot to free memory
     {
         if (head != nullptr)
@@ -217,8 +239,7 @@ int main ()
 
     try
     {
-        int minimum = myList.FindMinimum();
-        cout << "The minimum number in the list is " << minimum << "\n";
+        int maximum = myList.FindMaximum();
     }
     catch(const exception& e)
     {
@@ -235,13 +256,13 @@ int main ()
 
     try
     {
-        int minimum = myList.FindMinimum();
-        cout << "The minimum number in the list is " << minimum << "\n";
+        int maximum = myList.FindMinimum();
+        cout << "The maximum number in the list is " << maximum << "\n";
     }
     catch(const exception& e)
     {
         std::cerr << e.what() << '\n';
     }
-
+    
     return 0;
 }
