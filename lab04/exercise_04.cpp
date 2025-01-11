@@ -217,6 +217,24 @@ public:
         return maximum;
     }
 
+    bool Search(int dataToSearch)
+    {
+        if (head == nullptr)
+        { return false; }
+
+        Node *current = head;
+        while (current != nullptr)
+        {
+            if (dataToSearch == current->GetData())
+            {
+                return true;
+            }
+            current = current->GetNext();
+        }
+
+        return false; // If data is not found after searching in whole list.
+    }
+
     ~List() // Destructor to free memory just incase user forgot to free memory
     {
         if (head != nullptr)
@@ -237,15 +255,6 @@ int main ()
 {
     List myList;
 
-    try
-    {
-        int maximum = myList.FindMaximum();
-    }
-    catch(const exception& e)
-    {
-        cerr << e.what() << '\n';
-    }
-
     myList.Insert(1);
     myList.Insert(2);
     myList.Insert(3);
@@ -254,15 +263,17 @@ int main ()
     myList.Insert(6);
     myList.Insert(0);
 
-    try
+    int valueToSearch = 5;
+    bool valueFound = myList.Search(valueToSearch);
+
+    if (valueFound)
     {
-        int maximum = myList.FindMinimum();
-        cout << "The maximum number in the list is " << maximum << "\n";
+        cout << "The value " << valueToSearch << " exists in list.\n";
     }
-    catch(const exception& e)
+    else
     {
-        std::cerr << e.what() << '\n';
+        cout << "The value " << valueToSearch << " doesn't exists in list.\n";
     }
-    
+
     return 0;
 }
