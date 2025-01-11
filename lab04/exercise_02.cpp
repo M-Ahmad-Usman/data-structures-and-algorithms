@@ -89,7 +89,7 @@ public:
             return;
         }
 
-         // Case 2.: If first node contains the data
+        // Case 2.: If first node contains the data
         if (currentLocation->GetData() == dataToDelete)
         {
             Node *temp = currentLocation;
@@ -133,6 +133,35 @@ public:
             cout << "Data not found.\n";
     }
 
+    void AddBetween(int data, int firstNodeData, int secondNodeData)
+    {
+        if (currentLocation == nullptr || currentLocation->GetNext() == nullptr)
+        {
+            cout << "List contains less than 2 nodes.\n";
+            return;
+        }
+
+        Node *firstNode = currentLocation;
+        Node *secondNode = currentLocation->GetNext();
+
+        while (secondNode != nullptr)
+        {
+            if (firstNode->GetData() == firstNodeData && secondNode->GetData() == secondNodeData)
+            {
+                Node *newNode = new Node();
+                newNode->SetData(data);
+                firstNode->SetNext(newNode);
+                newNode->SetNext(secondNode);
+                return;
+            }
+
+            firstNode = firstNode->GetNext();
+            secondNode = secondNode->GetNext();
+        }
+
+        cout << "No two adjacent nodes found with given data.\n";
+    }
+
     ~List() // Destructor to free memory just incase user forgot to free memory
     {
         if (currentLocation != nullptr)
@@ -153,25 +182,20 @@ int main()
 {
     List myList;
 
-    myList.Delete(1); // Testing Case 1
-
+    // Testing AddBetween()
+    myList.AddBetween(1, 2, 3); // If list is empty
     myList.Insert(1);
+    myList.Insert(3);
 
-    myList.Delete(2); // Testing Case 4
+    myList.AddBetween(2, 1, 4);
+    myList.AddBetween(2, 2, 3);
+    myList.AddBetween(2, 1, 3);
 
-    myList.Delete(1); // Testing Case 2. If list contains only one node
-
-    myList.Insert(2);
     myList.Insert(4);
     myList.Insert(5);
-
-    myList.Delete(2);  // Testing Case 2. If list contains more than one node
-
     myList.Insert(6);
 
-    myList.Delete(7); // Testing Case 4
-    myList.Delete(5); // Testing Case 3.1
-    myList.Delete(6); // Testing Case 3.2
-    myList.Delete(4);
+    myList.AddBetween(7, 5, 6);
+
     return 0;
 }
