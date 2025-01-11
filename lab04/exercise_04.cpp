@@ -12,7 +12,7 @@ public:
     //Constructors
     Node()
     {
-        data = NULL;
+        data = 0;
         next = nullptr;
     }
 
