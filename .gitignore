@@ -4,6 +4,9 @@
 # VS Code Configuration
 *.vscode
 
+# File used by Windows for customizing the folder's display in file explorer
+desktop.ini
+
 # Compiled Object files
 *.slo
 *.lo
