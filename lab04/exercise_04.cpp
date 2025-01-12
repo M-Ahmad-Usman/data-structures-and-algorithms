@@ -323,6 +323,36 @@ public:
         node2->SetData(temp);
     }
 
+    void Sort()
+    {
+        if (head == nullptr)
+        { return; }
+
+        int size = 0;
+        Node *current = head;
+        while (current != nullptr)
+        {
+            size++;
+            current = current->GetNext();
+        }
+
+        current = head;
+        for (int i = 0; i < size-1; i++)
+        {
+            for (int j = 0; j < (size - i - 1); j++)
+            {
+                if (current->GetData() > current->GetNext()->GetData())
+                {
+                    int temp = current->GetData();
+                    current->SetData(current->GetNext()->GetData());
+                    current->GetNext()->SetData(temp);
+                }
+                current = current->GetNext();
+            }
+            current = head;
+        }
+    }
+
     ~List() // Destructor to free memory just incase user forgot to free memory
     {
         if (head != nullptr)
@@ -343,16 +373,19 @@ int main()
 {
     List myList;
 
-    myList.Insert(1);
-    myList.Insert(2);
-    myList.Insert(3);
-    myList.Insert(4);
     myList.Insert(5);
-    myList.Insert(6);
-    myList.Insert(0);
+    myList.Insert(4);
+    myList.Insert(3);
+    myList.Insert(10);
+    myList.Insert(9);
+    
+    myList.Sort();
 
-    myList.Swap(0, 4);
-    myList.Swap(1, 6);
+    myList.Insert(8);
+    myList.Insert(7);
+    myList.Insert(6);
+    
+    myList.Sort();
 
     return 0;
 }
