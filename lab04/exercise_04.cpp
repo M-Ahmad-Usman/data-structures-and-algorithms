@@ -353,6 +353,44 @@ public:
         }
     }
 
+    // Inserts a node at its sorted place in a list. Given list must be already sorted
+    void InsertInSorted (int data)
+    {
+        Node *newNode = new Node (data, nullptr);
+
+        // Case 1: If list is empty
+        if (head == nullptr)
+        {
+            head = newNode;
+            return;
+        }
+
+        // Case 2: If the item to be inserted should be at head position
+        if (data <= head->GetData())
+        {
+            newNode->SetNext(head);
+            head = newNode;
+            return;
+        }
+
+        // Case 3: If item to be inserted should be in somewhere between the list
+        Node *current = head->GetNext();
+        while (current->GetNext() != nullptr)
+        {
+            if (data <= current->GetNext()->GetData())
+            {
+                newNode->SetNext(current->GetNext());
+                current->SetNext(newNode);
+                return;
+            }
+            current = current->GetNext();
+        }
+
+        // Case 4: If the item to be inserted should be at the last of the list
+        current->SetNext(newNode);
+
+    }
+
     ~List() // Destructor to free memory just incase user forgot to free memory
     {
         if (head != nullptr)
@@ -373,19 +411,18 @@ int main()
 {
     List myList;
 
-    myList.Insert(5);
-    myList.Insert(4);
+    myList.InsertInSorted(1); // Testing Case 1
+
+    myList.Insert(2);
     myList.Insert(3);
-    myList.Insert(10);
-    myList.Insert(9);
-    
-    myList.Sort();
-
-    myList.Insert(8);
-    myList.Insert(7);
+    myList.Insert(5);
     myList.Insert(6);
-    
-    myList.Sort();
+    myList.Insert(7);
+    myList.Insert(8);
 
+    myList.InsertInSorted(0); // Testing Case 2
+    myList.InsertInSorted(3); // Testing Case 3
+    myList.InsertInSorted(4); // Testing Case 3
+    myList.InsertInSorted(9); // Testing Case 4
     return 0;
 }
