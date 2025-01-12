@@ -141,7 +141,23 @@ public:
         cout << "No node found with given data.\n";
     }
 
-    void PrintList();
+    void PrintList()
+    {
+        if (head == nullptr)
+        {
+            cout << "List is empty. Can't Print anything.\n";
+            return;
+        }
+
+        Node *current = head;
+        while (current->GetNext() != nullptr)
+        {
+            cout << current->GetData() << "->";
+            current = current->GetNext();
+        }
+        cout << current->GetData() << "\n";
+
+    }
 
     ~DoublyList() // Destructor to free memory just incase user forgot to free memory
     {
@@ -164,24 +180,24 @@ int main ()
     DoublyList list;
 
     list.InsertNode(1);
-
-    list.DeleteNode(1); // Testing Case 1.1
-
-    list.InsertNode(1);
-    list.InsertNode(2); 
-
-    list.DeleteNode(1); // Testing Case 1.2
-
+    list.InsertNode(2);
     list.InsertNode(3);
     list.InsertNode(4);
     list.InsertNode(5);
     list.InsertNode(6);
+    list.InsertNode(7);
 
-    list.DeleteNode(5); // Testing Case 2.1
+    list.PrintList();
 
-    list.DeleteNode(6); // Testing Case 2.2
+    list.DeleteNode(1);
+    list.DeleteNode(2);
+    list.DeleteNode(3);
+    list.DeleteNode(4);
+    list.DeleteNode(5);
+    list.DeleteNode(6);
+    list.DeleteNode(7);    
 
-    list.DeleteNode(10); // Testing Case 3
+    list.PrintList();
     
     return 0;
 }
