@@ -170,6 +170,38 @@ public:
 
     }
 
+    // Returns the winning position for Josephus. Assumes that nodes's data represents list indices.
+    int josephus (int jump)
+    {
+        if (head == nullptr)
+        {
+            cout << "List is empty.\n";
+            return 0;
+        }
+
+        if (jump < 0)
+        {
+            cout << "Jump value cannot be negative. Please enter a positive value.\n";
+            return 0;
+        }
+
+        Node *current = head;
+        Node *temp;
+        int index = 1;
+
+        while (head->GetNext() != head)
+        {   
+            for (int i=0; i<jump; i++)
+            {
+                current = current->GetNext();
+            }
+            temp = current->GetNext();
+            Delete(current->GetData());
+            current = temp;
+        }
+        return head->GetData();
+    }
+
     ~CircularList()
     {
         if (head != nullptr)
@@ -193,29 +225,11 @@ int main()
 {
     CircularList list;
 
-    list.Delete(1);
-    list.Print();
-
     list.Insert(1);
-    list.Print();
-    list.Delete(1);
-    list.Print();
-
-    list.Insert(1);
-    list.Insert(2);
-    list.Print();
-    list.Delete(1);
-    list.Print();
-    list.Insert(1);
-    list.Delete(2);
-    list.Print();
-
     list.Insert(2);
     list.Insert(3);
-    list.Print();
-    list.Delete(3);
-    list.Delete(2);
-    list.Delete(1);
-    list.Print();
+    list.Insert(4);
+
+    cout << list.josephus(1);
     return 0;
 }
