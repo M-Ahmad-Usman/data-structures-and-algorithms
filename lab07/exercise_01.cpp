@@ -50,11 +50,59 @@ public:
 
         throw runtime_error("Stack is empty. Can't pop from an empty stack.\n");
     }
-    void Display();
+
+    void Display()
+    {
+        if (IsEmpty())
+        {
+            cout << "Stack is empty. Can't display anything.\n";
+            return;
+        }
+
+        int counter = top;
+        while (counter >= 0)
+        {
+            cout << stackArray[counter--] << " ";
+        }
+        cout << "\n";
+    }
 
 };
 
- main()
+int main()
 {
+    Stack stack;
+
+    stack.Display();
+
+    try
+    {
+        stack.Pop();
+    }
+    catch(const exception& e)
+    {
+        cerr << e.what() << '\n';
+    }
+
+    stack.Push(1);
+    stack.Push(2);
+    stack.Push(3);
+    stack.Push(4);
+    stack.Push(5);
+
+    stack.Push(6);
+
+    stack.Display();
+
+    cout << "Popped: " << stack.Pop() << "\n";
+
+    stack.Display();
+
+    stack.Pop();
+    stack.Pop();
+    stack.Pop();
+
+    stack.Display();
+
     return 0;
 }
