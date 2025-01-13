@@ -41,7 +41,15 @@ public:
         stackArray[++top] = data;
     }
 
-    int Pop();
+    int Pop()
+    {
+        if (!IsEmpty())
+        {
+            return stackArray[top--];
+        }
+
+        throw runtime_error("Stack is empty. Can't pop from an empty stack.\n");
+    }
     void Display();
 
 };
