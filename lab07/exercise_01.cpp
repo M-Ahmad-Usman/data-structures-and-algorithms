@@ -30,14 +30,23 @@ public:
     {
         return STACKSIZE;
     }
-    
-    void Push(int);
-    void Pop();
+
+    void Push(int data)
+    {
+        if (IsFull())
+        {
+            cout << "Stack is full. Can't Insert more items.\n";
+            return;
+        }
+        stackArray[++top] = data;
+    }
+
+    int Pop();
     void Display();
 
 };
 
-main()
+ main()
 {
     return 0;
 }
