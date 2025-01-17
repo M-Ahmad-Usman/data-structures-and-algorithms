@@ -3,9 +3,10 @@ using namespace std;
 
 // Stack implementation using array of dynamic size
 
+template<typename T>
 class Stack
 {
-    int *arrptr;
+    T *arrptr;
     int size;
     int top;
 
@@ -21,7 +22,7 @@ public:
         top = -1;
         this->size = size;
 
-        arrptr = new int[size];
+        arrptr = new T[size];
     }
 
     bool IsEmpty()
@@ -40,7 +41,7 @@ public:
         return top + 1;
     }
 
-    void Push(int data)
+    void Push(T data)
     {
         if (IsFull())
         {
@@ -50,7 +51,7 @@ public:
         arrptr[++top] = data;
     }
 
-    int Pop()
+    T Pop()
     {
         if (!IsEmpty())
         {
@@ -85,6 +86,26 @@ public:
 
 int main()
 {
+    try
+    {
+        Stack<string> s(3);
+        s.Push("10");
+        s.Push("20");
+        s.Push("30");
+        s.Display();
+
+        cout << "Popped: " << s.Pop() << "\n";
+        s.Display();
+
+        s.Push("40");
+        s.Display();
+
+        s.Push("50");
+    }
+    catch (const exception &e)
+    {
+        cout << e.what();
+    }
 
     return 0;
 }
