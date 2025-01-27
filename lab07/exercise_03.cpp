@@ -323,24 +323,130 @@ string InfixToPostfix(string infix)
     return postfix;
 }
 
+// Returns the result of given operand ^ exponent
+double Exponentiate(double oprnd, double exp)
+{
+    double result = 1.0;
+
+    if (oprnd == 0 && exp == 0)
+    throw runtime_error("0^0 is ambigous.");
+
+    if (oprnd == 0)
+    return 0;
+
+    else if (exp == 0)
+    return 1.0;
+
+    else if (exp < 0)
+    {
+        exp = -exp;
+        while (exp >= 0)
+        {
+            result *= oprnd;
+            exp--;
+        }
+        return 1.0/result;
+    }
+
+    else
+    {
+        while (exp >= 1)
+        {
+            result *= oprnd;
+            exp--;
+        }
+
+        return result;
+    }
+}
+
+// Returns the results of basic arithmatic calculations
+double BasicCalculator(double oprnd1, double oprnd2, char oprt)
+{
+    if (oprt == '+')
+    return oprnd1 + oprnd2;
+
+    else if (oprt == '-')
+    return oprnd1 - oprnd2;
+
+    else if (oprt == '*')
+    return oprnd1 * oprnd2;
+
+    else if (oprt == '/')
+    {
+        if (oprnd2 != 0)
+        return oprnd1 / oprnd2;
+        else
+        throw runtime_error("Invalid Expresion. Division by zero is not allowed");
+    }
+    
+    else if (oprt == '^')
+    {
+        return Exponentiate(oprnd1, oprnd2);
+    }
+
+    else
+    throw runtime_error("Invalid expression.");
+}
+
+// Evaluates a postfix expression and returns its result. Expression must not contain any variable
+double EvalPostfix(string postfix)
+{
+    int size = postfix.length();
+
+    if (size == 0)
+    throw runtime_error("Invalid Postfix expression. Expression can't be empty");
+    
+    Stack<double> stk(size);
+
+    for (int i = 0; i < size; i++)
+    {
+        if ((postfix[i] >= 'A' && postfix[i] <= 'Z') || (postfix[i] >= 'a' && postfix[i] <= 'z'))
+        {
+            throw runtime_error("Invalid postfix expression. Expression with variables can't be evaluated");
+        }
+        else if (postfix[i] >= '0' && postfix[i] <= '9')
+        {
+            // ASCII 0-9 corresponds to 48-57
+            double oprnd = postfix[i] - 48;
+
+            stk.Push(oprnd);
+        }
+        else
+        {
+            double oprnd2 = stk.Pop();
+            double oprnd1 = stk.Pop();
+            double result = BasicCalculator(oprnd1, oprnd2, postfix[i]);
+            stk.Push(result);
+        }
+    }
+    double result = stk.Pop();
+
+    if (stk.IsEmpty())
+    return result;
+    else
+    throw runtime_error("Invalid expression");
+}
+
 int main()
 {
     bool run = true;
-    string infix, postfix;
+    string postfix;
 
     while (run)
     {
-        cout << "Enter infix expression: ";
-        // cin >> infix; // Stops at first whitespace
+        cout << "Enter postix expression to evaluate: ";
+        // cin >> postfix; // Stops at first whitespace
 
-        // getline(cin, infix); Reads entire line with whitespaces
+        // getline(cin, postix);  Can read entire line with whitespaces
 
-        getline(cin, infix);
+        getline(cin, postfix);
 
         try
         {
-            postfix = InfixToPostfix(infix);
-            cout << "Postfix expression: " << postfix << "\n";
+            double result;
+            result = EvalPostfix(postfix);
+            cout << "Result: " << result << "\n";
         }
         catch (const exception &e)
         {
