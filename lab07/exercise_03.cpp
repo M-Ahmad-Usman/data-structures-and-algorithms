@@ -3,7 +3,40 @@
 #include <limits>
 using namespace std;
 
+// ***** All functions and classes prototypes *****
+
 // Stack implementation using array of dynamic size
+template<typename T>
+class Stack;
+
+
+/* Returns a positive integer representing the precedence of operators. Greater the value greater
+the precedence. Returns 0 if operator is not defined  */
+int GetOprPrec(char opr);
+
+/* Returns 1 if operator's associativity is left-to-right and 2 if associativity is right-to-left.
+Returns 0 if operator is not defined */
+int GetOprAssoc(char opr);
+// Returns true if operator is valid. Valid operators are: "+, -, /, *, ^"
+bool IsOprValid(char opr);
+// Retuns a postfix expression of an infix expression. Supports only expressions with operators : " +, -, /, *, ^ "
+string InfixToPostfix(string infix);
+
+
+
+// Returns the result of given operand ^ exponent
+double Exponentiate(double oprnd, double exp);
+// Returns the results of basic arithmatic calculations
+double BasicCalculator(double oprnd1, double oprnd2, char oprt);
+// Evaluates a postfix expression and returns its result. Expression must not contain any variable
+double EvalPostfix(string postfix);
+
+
+int main()
+{
+    
+    return 0;
+}
 
 template<typename T>
 class Stack
@@ -97,8 +130,8 @@ public:
     }
 };
 
-/*
-Returns a positive integer representing the precedence of operators. Greater the value greater
+
+/* Returns a positive integer representing the precedence of operators. Greater the value greater
 the precedence. Returns 0 if operator is not defined  */
 int GetOprPrec(char opr)
 {
@@ -119,9 +152,7 @@ int GetOprPrec(char opr)
         return 0;
     }
 }
-
-/*
-Retuns 1 if operator's associativity is left-to-right and 2 if associativity is right-to-left.
+/* Returns 1 if operator's associativity is left-to-right and 2 if associativity is right-to-left.
 Returns 0 if operator is not defined */
 int GetOprAssoc(char opr)
 {
@@ -138,7 +169,6 @@ int GetOprAssoc(char opr)
         return 0;
     }
 }
-
 // Returns true if operator is valid. Valid operators are: "+, -, /, *, ^"
 bool IsOprValid(char opr)
 {
@@ -147,7 +177,6 @@ bool IsOprValid(char opr)
     else
         return false;
 }
-
 // Retuns a postfix expression of an infix expression. Supports only expressions with operators : " +, -, /, *, ^ "
 string InfixToPostfix(string infix)
 {
@@ -323,6 +352,8 @@ string InfixToPostfix(string infix)
     return postfix;
 }
 
+
+
 // Returns the result of given operand ^ exponent
 double Exponentiate(double oprnd, double exp)
 {
@@ -359,7 +390,6 @@ double Exponentiate(double oprnd, double exp)
         return result;
     }
 }
-
 // Returns the results of basic arithmatic calculations
 double BasicCalculator(double oprnd1, double oprnd2, char oprt)
 {
@@ -388,7 +418,6 @@ double BasicCalculator(double oprnd1, double oprnd2, char oprt)
     else
     throw runtime_error("Invalid expression.");
 }
-
 // Evaluates a postfix expression and returns its result. Expression must not contain any variable
 double EvalPostfix(string postfix)
 {
@@ -426,43 +455,4 @@ double EvalPostfix(string postfix)
     return result;
     else
     throw runtime_error("Invalid expression");
-}
-
-int main()
-{
-    bool run = true;
-    string postfix;
-
-    while (run)
-    {
-        cout << "Enter postix expression to evaluate: ";
-        // cin >> postfix; // Stops at first whitespace
-
-        // getline(cin, postix);  Can read entire line with whitespaces
-
-        getline(cin, postfix);
-
-        try
-        {
-            double result;
-            result = EvalPostfix(postfix);
-            cout << "Result: " << result << "\n";
-        }
-        catch (const exception &e)
-        {
-            cerr << e.what() << '\n';
-        }
-
-        cout << "Press 1 to calculate again and 0 to quit.";
-        cin >> run;
-        cout << "\n";
-
-        /* 
-        cin >> run leaves a new line character in the input buffer. 
-        To prevent getline() to take that new line as new input, 
-        input buffer must be cleaned before taking new string. */
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    }
-
-    return 0;
 }
