@@ -1,14 +1,14 @@
 #include <iostream>
 #include <string>
 #include <limits>
+#include <math.h>
 using namespace std;
 
 // ***** All functions and classes prototypes *****
 
 // Stack implementation using array of dynamic size
-template<typename T>
+template <typename T>
 class Stack;
-
 
 /* Returns a positive integer representing the precedence of operators. Greater the value greater
 the precedence. Returns 0 if operator is not defined  */
@@ -22,8 +22,6 @@ bool IsOprValid(char opr);
 // Retuns a postfix expression of an infix expression. Supports only expressions with operators : " +, -, /, *, ^ "
 string InfixToPostfix(string infix);
 
-
-
 // Returns the result of given operand ^ exponent
 double Exponentiate(double oprnd, double exp);
 // Returns the results of basic arithmatic calculations
@@ -32,13 +30,38 @@ double BasicCalculator(double oprnd1, double oprnd2, char oprt);
 double EvalPostfix(string postfix);
 
 
+
+// Returns Binary number of given positive integer
+string DecToBinary(int dec);
+
+
 int main()
 {
-    
+    bool run = true;
+    int decimal;
+
+    while (run)
+    {
+        cout << "Enter decimal number: ";
+        cin >> decimal;
+
+        try
+        {
+            /* code */
+            cout << "Binary of Decimal " << decimal << " is " << DecToBinary(decimal) << "\n";
+        }
+        catch (const exception &e)
+        {
+            cerr << e.what() << '\n';
+        }
+
+        cout << "Press 1 to run again or 0 to quit.";
+        cin >> run;
+    }
     return 0;
 }
 
-template<typename T>
+template <typename T>
 class Stack
 {
     T *arrptr;
@@ -122,14 +145,13 @@ public:
             throw runtime_error("Stack is empty. Can't get top.");
         }
     }
-    
+
     // Destructor to free the memory allocated to stack
     ~Stack()
     {
         delete[] arrptr;
     }
 };
-
 
 /* Returns a positive integer representing the precedence of operators. Greater the value greater
 the precedence. Returns 0 if operator is not defined  */
@@ -352,21 +374,19 @@ string InfixToPostfix(string infix)
     return postfix;
 }
 
-
-
 // Returns the result of given operand ^ exponent
 double Exponentiate(double oprnd, double exp)
 {
     double result = 1.0;
 
     if (oprnd == 0 && exp == 0)
-    throw runtime_error("0^0 is ambigous.");
+        throw runtime_error("0^0 is ambigous.");
 
     if (oprnd == 0)
-    return 0;
+        return 0;
 
     else if (exp == 0)
-    return 1.0;
+        return 1.0;
 
     else if (exp < 0)
     {
@@ -376,7 +396,7 @@ double Exponentiate(double oprnd, double exp)
             result *= oprnd;
             exp--;
         }
-        return 1.0/result;
+        return 1.0 / result;
     }
 
     else
@@ -394,29 +414,29 @@ double Exponentiate(double oprnd, double exp)
 double BasicCalculator(double oprnd1, double oprnd2, char oprt)
 {
     if (oprt == '+')
-    return oprnd1 + oprnd2;
+        return oprnd1 + oprnd2;
 
     else if (oprt == '-')
-    return oprnd1 - oprnd2;
+        return oprnd1 - oprnd2;
 
     else if (oprt == '*')
-    return oprnd1 * oprnd2;
+        return oprnd1 * oprnd2;
 
     else if (oprt == '/')
     {
         if (oprnd2 != 0)
-        return oprnd1 / oprnd2;
+            return oprnd1 / oprnd2;
         else
-        throw runtime_error("Invalid Expresion. Division by zero is not allowed");
+            throw runtime_error("Invalid Expresion. Division by zero is not allowed");
     }
-    
+
     else if (oprt == '^')
     {
         return Exponentiate(oprnd1, oprnd2);
     }
 
     else
-    throw runtime_error("Invalid expression.");
+        throw runtime_error("Invalid expression.");
 }
 // Evaluates a postfix expression and returns its result. Expression must not contain any variable
 double EvalPostfix(string postfix)
@@ -424,8 +444,8 @@ double EvalPostfix(string postfix)
     int size = postfix.length();
 
     if (size == 0)
-    throw runtime_error("Invalid Postfix expression. Expression can't be empty");
-    
+        throw runtime_error("Invalid Postfix expression. Expression can't be empty");
+
     Stack<double> stk(size);
 
     for (int i = 0; i < size; i++)
@@ -452,7 +472,42 @@ double EvalPostfix(string postfix)
     double result = stk.Pop();
 
     if (stk.IsEmpty())
-    return result;
+        return result;
     else
-    throw runtime_error("Invalid expression");
+        throw runtime_error("Invalid expression");
+}
+
+
+
+// Returns Binary number of given positive integer
+string DecToBinary(int dec)
+{
+    if (dec == 0)
+    return "0";
+
+    else if (dec == 1)
+    return "1";
+
+    else if (dec < 0)
+    throw runtime_error("Enter a positive integer to find its binary.");
+
+    int size = log10(dec) / log10(2);
+
+    Stack<char> stk(size);
+
+    while (dec > 1)
+    {
+        // ASCII 0-9 corresponds to 48-57
+        stk.Push((dec % 2) + 48);
+
+        dec /= 2;
+    }
+
+    string bin = "1";
+
+    while (!(stk.IsEmpty()))
+    {
+        bin += stk.Pop();
+    }
+    return bin;
 }
