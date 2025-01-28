@@ -13,7 +13,6 @@ class Stack;
 /* Returns a positive integer representing the precedence of operators. Greater the value greater
 the precedence. Returns 0 if operator is not defined  */
 int GetOprPrec(char opr);
-
 /* Returns 1 if operator's associativity is left-to-right and 2 if associativity is right-to-left.
 Returns 0 if operator is not defined */
 int GetOprAssoc(char opr);
@@ -35,29 +34,13 @@ double EvalPostfix(string postfix);
 string DecToBinary(int dec);
 
 
+// Returns true if expressions is balanced else returns false
+bool IsExpBal(string exp);
+
+
 int main()
 {
-    bool run = true;
-    int decimal;
-
-    while (run)
-    {
-        cout << "Enter decimal number: ";
-        cin >> decimal;
-
-        try
-        {
-            /* code */
-            cout << "Binary of Decimal " << decimal << " is " << DecToBinary(decimal) << "\n";
-        }
-        catch (const exception &e)
-        {
-            cerr << e.what() << '\n';
-        }
-
-        cout << "Press 1 to run again or 0 to quit.";
-        cin >> run;
-    }
+    
     return 0;
 }
 
@@ -510,4 +493,46 @@ string DecToBinary(int dec)
         bin += stk.Pop();
     }
     return bin;
+}
+
+// Returns true if expression is balanced else returns false
+bool IsExpBal(string exp)
+{
+    int size = exp.length();
+
+    Stack<char> stk(size);
+
+    for (int i = 0; i < size; i++)
+    {
+        if (exp[i] == '(' || exp[i] == '[' || exp[i] == '{')
+        {
+            stk.Push(exp[i]);
+        }
+        else if (exp[i] == ')')
+        {
+            if (stk.GetTop() == '(')
+            stk.Pop();
+
+            else
+            return false;
+        }
+        else if (exp[i] == ']')
+        {
+            if (stk.GetTop() == '[')
+            stk.Pop();
+
+            else
+            return false;
+        }
+        else if (exp[i] == '}')
+        {
+            if (stk.GetTop() == '{')
+            stk.Pop();
+
+            else
+            return false;
+        }
+    }
+
+    return stk.IsEmpty();
 }
