@@ -3,10 +3,12 @@
 #include "exercise_01.cpp"
 using namespace std;
 
-bool TakeIntegerInput(int *size)
+// Takes input from user
+template <typename T>
+bool TakeInput(T *input)
 {
-    // Takins user input and checking whether the input is valid integer
-    if (!(cin >> *size))
+    // Takes user input and checking whether the input is valid integer
+    if (!(cin >> *input))
     {
         cin.clear(); // When an invalid input (e.g., a non-integer) is entered, std::cin sets an error flag (failbit) to indicate the failure of the input operation. Once the error flag is set: Further attempts to use std::cin will fail until the error flag is cleared. Without clearing the error flag, std::cin remains in an unusable state.
 
@@ -24,7 +26,7 @@ ArrayQueue<T> *InitializeQueue()
     int queueSize;
 
     cout << "Enter queue size: ";
-    while (!(TakeIntegerInput(&queueSize)) || queueSize <= 0)
+    while (!(TakeInput(&queueSize)) || queueSize <= 0)
     {
         cout << "Invalid input.\n";
         cout << "Please enter a valid integer: ";
@@ -48,7 +50,7 @@ void Menu()
         cout << "3.Press 3 to display elements in Queue.\n";
         cout << "4.Press 4 to exit.\n";
 
-        while (!(TakeIntegerInput(&operation)))
+        while (!(TakeInput(&operation)))
         {
             cout << "Invalid input.\n";
             cout << "Please enter an integer: ";
@@ -61,7 +63,12 @@ void Menu()
         {
             cout << "Enter element: ";
             T data;
-            cin >> data;
+
+            while (!(TakeInput(&data)))
+            {
+                cout << "Invalid input element.\n";
+                cout << "Please enter again: ";
+            }
 
             try
             {
