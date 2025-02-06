@@ -122,8 +122,3 @@ public:
         delete[] arrptr;
     }
 };
-
-int main()
-{
-    return 0;
-}

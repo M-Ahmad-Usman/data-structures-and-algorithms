@@ -144,23 +144,3 @@ public:
         }
     }
 };
-
-int main()
-{
-    LinkedQueue<int> queue;
-
-    queue.Enqueue(10);
-    queue.Enqueue(20);
-    queue.Enqueue(30);
-
-    cout << "Queue: ";
-    queue.PrintQueue();
-
-    queue.Dequeue();
-    queue.Dequeue();
-    queue.Dequeue();
-
-    cout << "Queue: ";
-    queue.PrintQueue();
-    return 0;
-}
