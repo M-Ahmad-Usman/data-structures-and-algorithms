@@ -32,7 +32,7 @@ int TakeIntegerInput()
     {
         try
         {
-            cin >> inputStr;
+            getline(cin, inputStr);
             number = stoi(inputStr, &charPosition);
             
             if (charPosition != inputStr.length())
@@ -42,7 +42,7 @@ int TakeIntegerInput()
         }
         catch(const exception& e)
         {
-            cout << "Invalid input. Enter a positive integer: ";
+            cout << "Invalid input. Enter a positive integer without spaces: ";
         }
         
     }
@@ -70,6 +70,9 @@ int main ()
 
         cout << "Do you want to calculate again? (Y/N) ";
         cin >> choice;
+
+        // Clearing the input buffer before taking new input in getline
+        cin.ignore();
 
     } while (choice == 'y' || choice == 'Y');
 
